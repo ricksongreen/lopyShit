@@ -25,12 +25,11 @@ RGB_BLUE = RGB_BRIGHTNESS
 
 
 class Scanner:
-    def __init__(self, debug, valid_cards):
+    def __init__(self, debug):
         # Make sure heartbeat is disabled before setting RGB LED
         pycom.heartbeat(False)
 
         self.debug = debug
-        self.valid_cards = valid_cards
 
         # Define the default attributes
         self.py = Pyscan()
@@ -46,7 +45,7 @@ class Scanner:
         _thread.start_new_thread(self.send_sensor_data, ("Thread 2", 10))
 
     def check_uid(self, uid, len):
-        return self.valid_cards.count(uid[:len])
+        return self.get_valid_cards().count(uid[:len])
 
     def print_debug(self, msg):
         if self.debug:
@@ -109,3 +108,14 @@ class Scanner:
         ip = station.ifconfig()[0]
         print("Device IP address on network:", ip)
         return True
+
+    def get_valid_cards(self):
+        cards = []
+        if self.check_network_connection():
+            url = "http://mambo150.pythonanywhere.com/tag/"
+            response = urequests.get(url).json()["results"]
+            print(response)
+            for card in response:
+                hex_card = [int(x, 16) for x in card["uid"].split()]
+                cards.append(hex_card)
+        return cards
