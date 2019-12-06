@@ -90,7 +90,11 @@ class Scanner:
                 self.print_debug("Card is listed, turn LED green")
                 pycom.rgbled(RGB_GREEN)
                 if self.check_network_connection():
-                    print("connected to network")
+                    url = "http://mambo150.pythonanywhere.com/users/"
+                    response = urequests.get(url)  # response object
+                    print("HTTP status code:{}".format(response.status_code))
+                    res = response.json()
+                    print(res)
             else:
                 self.print_debug("Card is not listed, turn LED red")
                 pycom.rgbled(RGB_RED)

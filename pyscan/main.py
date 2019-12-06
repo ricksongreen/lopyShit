@@ -1,13 +1,33 @@
+import network
+import urequests
+import time
+
 from nfc_scanner import Scanner
 
 DEBUG = True  # change to True to see debug messages
 
-VALID_CARDS = [
-    [0xA5, 0x50, 0xDC, 0x47],  # OV chipkaart karan
-    [0x97, 0x0B, 0xAA, 0x70],  # OV chipkaart Rick
-    [0x57, 0xE9, 0xFD, 0xD0],  # OV chipkaart Swen
-    [0x41, 0xB3, 0xFD, 0x07],  # OV chipkaart Cas
-]
+VALID_CARDS = []
+
+
+def check_network_connection():
+    station = network.WLAN(mode=network.WLAN.STA)
+    while not station.isconnected():
+        time.sleep(1)
+    ip = station.ifconfig()[0]
+    return True
+
+
+def get_valid_cards():
+    global VALID_CARDS
+
+    if check_network_connection():
+        url = "http://mambo150.pythonanywhere.com/tag/"
+        response = urequests.get(url).json()["results"]
+        for card in response:
+            hex_card = [int(x, 16) for x in card["uid"].split()]
+            VALID_CARDS.append(hex_card)
+
 
 if __name__ == "__main__":
+    get_valid_cards()
     Scanner(DEBUG, VALID_CARDS)
