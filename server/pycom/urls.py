@@ -6,10 +6,11 @@ router = routers.DefaultRouter()
 
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-router.register(r'Toilet', views.ToiletViewSet)
-router.register(r'Usage', views.UsageViewSet)
-router.register(r'Reviller', views.RevillerViewSet)
-router.register(r'Revill', views.RevillViewSet)
+router.register(r'toilet', views.ToiletViewSet)
+router.register(r'usage', views.UsageViewSet)
+router.register(r'refiller', views.RefillerViewSet)
+router.register(r'refill', views.RefillViewSet)
+router.register(r'tag',views.TagViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
