@@ -86,14 +86,14 @@ class Scanner:
                 )
             )
             if (self.check_uid(list(uid), uid_len)) > 0:
-                self.print_debug("Card is listed, turn LED green")
-                pycom.rgbled(RGB_GREEN)
+                self.print_debug("Card is listed, turn LED green and send data to API")
                 if self.check_network_connection():
                     url = "http://mambo150.pythonanywhere.com/users/"
                     response = urequests.get(url)  # response object
                     print("HTTP status code:{}".format(response.status_code))
                     res = response.json()
                     print(res)
+                pycom.rgbled(RGB_GREEN)
             else:
                 self.print_debug("Card is not listed, turn LED red")
                 pycom.rgbled(RGB_RED)
@@ -114,7 +114,6 @@ class Scanner:
         if self.check_network_connection():
             url = "http://mambo150.pythonanywhere.com/tag/"
             response = urequests.get(url).json()["results"]
-            print(response)
             for card in response:
                 hex_card = [int(x, 16) for x in card["uid"].split()]
                 cards.append(hex_card)
