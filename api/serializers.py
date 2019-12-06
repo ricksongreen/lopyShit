@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ToiletSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Toilet
-        fields = ['name', 'place', 'toiletPaper']
+        fields = ['id', 'place', 'toiletPaper']
 
 class UsageSerializer(serializers.HyperlinkedModelSerializer):
     toiletName = serializers.CharField(
@@ -31,12 +31,12 @@ class UsageSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Usage
-        fields = ['name', 'usageDateTime', 'toilet', 'toiletName', 'toiletPlace', 'toiletPaper']
+        fields = ['id', 'usageDateTime', 'toilet', 'toiletName', 'toiletPlace', 'toiletPaper']
 
 class RevillerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Reviller
-        fields = ['name', 'tag']
+        fields = ['id', 'name', 'tag']
 
 class RevillSerializer(serializers.HyperlinkedModelSerializer):
     toiletName = serializers.CharField(
@@ -58,4 +58,4 @@ class RevillSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Revill
-        fields = ['revillDateTime', 'reviller', 'revillerName', 'revillerTag', 'toilet', 'toiletName', 'toiletPlace', 'toiletPaper']
+        fields = ['id','revillDateTime', 'reviller', 'revillerName', 'revillerTag', 'toilet', 'toiletName', 'toiletPlace', 'toiletPaper']

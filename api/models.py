@@ -6,7 +6,6 @@ class Toilet(models.Model):
     toiletPaper = models.FloatField()
 
 class Usage(models.Model):
-    name = models.CharField(max_length=50)
     usageDateTime = models.DateTimeField()
     toilet = models.ForeignKey(Toilet, on_delete=models.CASCADE)
 
