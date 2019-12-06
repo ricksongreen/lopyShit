@@ -16,12 +16,9 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ToiletSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Toilet
-        fields = ['id', 'name', 'place', 'toiletPaper']
+        fields = ['id', 'place', 'toiletPaper', 'maxAmountOfToiletRolls', 'toiletRollSize', 'extraDistance']
 
 class UsageSerializer(serializers.HyperlinkedModelSerializer):
-    toiletName = serializers.CharField(
-        source="toilet.name", read_only="True"
-    )
     toiletPlace = serializers.CharField(
         source="toilet.place", read_only="True"
     )
@@ -31,12 +28,13 @@ class UsageSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Usage
-        fields = ['id', 'usageDateTime', 'toilet', 'toiletName', 'toiletPlace', 'toiletPaper']
+        fields = ['id', 'usageDateTime', 'toilet', 'toiletPlace', 'toiletPaper']
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
-    model = Tag
-    fields = ['uid']
+    class Meta:
+        model = Tag
+        fields = ['uid']
 
 class RefillerSerializer(serializers.HyperlinkedModelSerializer):
     tagUid = serializers.CharField( 
@@ -45,12 +43,9 @@ class RefillerSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Refiller
-        fields = ['id', 'name', 'tagUid']
+        fields = ['id', 'name', 'tag', 'tagUid']
 
 class RefillSerializer(serializers.HyperlinkedModelSerializer):
-    toiletName = serializers.CharField(
-        source="toilet.name", read_only="True"
-    )
     toiletPlace = serializers.CharField(
         source="toilet.place", read_only="True"
     )
@@ -64,4 +59,4 @@ class RefillSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Refill
-        fields = ['id','refillDateTime', 'refiller', 'refillerName', 'toilet', 'toiletName', 'toiletPlace', 'toiletPaper']
+        fields = ['id','refillDateTime', 'refiller', 'refillerName', 'toilet', 'toiletPlace', 'toiletPaper']

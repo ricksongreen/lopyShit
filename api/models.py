@@ -1,9 +1,11 @@
 from django.db import models
 
 class Toilet(models.Model):
-    name = models.CharField(max_length=50)
     place = models.CharField(max_length=50)
     toiletPaper = models.FloatField()
+    maxAmountOfToiletRolls = models.IntegerField(default = 3)
+    toiletRollSize = models.FloatField()
+    extraDistance = models.FloatField()
 
 class Usage(models.Model):
     usageDateTime = models.DateTimeField()
