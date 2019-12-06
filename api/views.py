@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from api.models import Toilet, Usage, Reviller, Revill
-from api.serializers import UserSerializer, GroupSerializer, ToiletSerializer, UsageSerializer, RevillerSerializer, RevillSerializer
+from api.models import Toilet, Usage, Refiller, Refill, Tag
+from api.serializers import UserSerializer, GroupSerializer, TagSerializer, ToiletSerializer, UsageSerializer, RefillerSerializer, RefillSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,10 +20,14 @@ class UsageViewSet(viewsets.ModelViewSet):
     queryset = Usage.objects.all()
     serializer_class = UsageSerializer
 
-class RevillerViewSet(viewsets.ModelViewSet):
-    queryset = Reviller.objects.all()
-    serializer_class = RevillerSerializer
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
-class RevillViewSet(viewsets.ModelViewSet):
-    queryset = Revill.objects.all()
-    serializer_class = RevillSerializer
+class RefillerViewSet(viewsets.ModelViewSet):
+    queryset = Refiller.objects.all()
+    serializer_class = RefillerSerializer
+
+class RefillViewSet(viewsets.ModelViewSet):
+    queryset = Refill.objects.all()
+    serializer_class = RefillSerializer

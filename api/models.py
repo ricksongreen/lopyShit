@@ -9,11 +9,14 @@ class Usage(models.Model):
     usageDateTime = models.DateTimeField()
     toilet = models.ForeignKey(Toilet, on_delete=models.CASCADE)
 
-class Reviller(models.Model):
-    name = models.CharField(max_length=50)
-    tag = models.CharField(max_length=128)
+class Tag(models.Model):
+    uid = models.CharField(max_length=128, primary_key=True)
 
-class Revill(models.Model):
-    revillDateTime = models.DateTimeField()
-    reviller = models.ForeignKey(Reviller, on_delete=models.CASCADE)
+class Refiller(models.Model):
+    name = models.CharField(max_length=50)
+    tag = models.OneToOneField(Tag, on_delete=models.CASCADE)
+
+class Refill(models.Model):
+    refillDateTime = models.DateTimeField()
+    refiller = models.ForeignKey(Refiller, on_delete=models.CASCADE)
     toilet = models.ForeignKey(Toilet, on_delete=models.CASCADE)
