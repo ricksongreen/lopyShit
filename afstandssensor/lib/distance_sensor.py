@@ -70,9 +70,13 @@ class DistanceSensor:
         json = {
             "id" : 1,
             "place" : self.place,
+            # 'place' : 'WF 1ste Etage',
             "toiletPaper" : amount,
             "maxAmountOfToiletRolls" : self.maxAmountOfToiletRolls,
+            # 'maxAmountOfToiletRolls' : 3,
             "toiletRollSize" : self.toiletRollSize,
+            # 'toiletRollSize' : 12,
             "extraDistance" : self.extraDistance
+            # 'extraDistance' : 2
         }
         urequests.put(self.url, json=json)
