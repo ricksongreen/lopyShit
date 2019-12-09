@@ -23,6 +23,8 @@ RGB_RED = RGB_BRIGHTNESS << 16
 RGB_GREEN = RGB_BRIGHTNESS << 8
 RGB_BLUE = RGB_BRIGHTNESS
 
+BASE_URL = "http://mambo150.pythonanywhere.com"
+
 
 class Scanner:
     def __init__(self, debug):
@@ -88,8 +90,18 @@ class Scanner:
             if (self.check_uid(list(uid), uid_len)) > 0:
                 self.print_debug("Card is listed, turn LED green and send data to API")
                 if self.check_network_connection():
-                    url = "http://mambo150.pythonanywhere.com/users/"
-                    response = urequests.get(url)  # response object
+                    global BASE_URL
+                    headers = {
+                        "Content-Type": "application/json",
+                    }
+                    data = {
+                        "refiller": BASE_URL + "/refiller/1/",
+                        "toilet": BASE_URL + "/toilet/1/",
+                    }
+                    print(data)
+                    response = urequests.post(
+                        BASE_URL + "/refill/", headers=headers, data=str(data)
+                    )  # response object
                     print("HTTP status code:{}".format(response.status_code))
                     res = response.json()
                     print(res)
