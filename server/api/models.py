@@ -8,7 +8,7 @@ class Toilet(models.Model):
     extraDistance = models.FloatField()
 
 class Usage(models.Model):
-    usageDateTime = models.DateTimeField()
+    usageDateTime = models.DateTimeField(auto_now_add=True, blank=True)
     toilet = models.ForeignKey(Toilet, on_delete=models.CASCADE)
 
 class Tag(models.Model):
@@ -19,6 +19,6 @@ class Refiller(models.Model):
     tag = models.OneToOneField(Tag, on_delete=models.CASCADE)
 
 class Refill(models.Model):
-    refillDateTime = models.DateTimeField()
+    refillDateTime = models.DateTimeField(auto_now_add=True, blank=True)
     refiller = models.ForeignKey(Refiller, on_delete=models.CASCADE)
     toilet = models.ForeignKey(Toilet, on_delete=models.CASCADE)
