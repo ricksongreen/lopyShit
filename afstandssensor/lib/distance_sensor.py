@@ -79,10 +79,10 @@ class DistanceSensor:
             # 'place' : 'WF 1ste Etage',
             "toiletPaper": amount,
             "maxAmountOfToiletRolls": self.maxAmountOfToiletRolls,
-            # 'maxAmountOfToiletRolls' : 3,
+            # 'maxAmountOfToiletRolls' : 8,
             "toiletRollSize": self.toiletRollSize,
             # 'toiletRollSize' : 12,
             "extraDistance": self.extraDistance
-            # 'extraDistance' : 2
+            # 'extraDistance' : 4
         }
         urequests.put(self.url, json=json)

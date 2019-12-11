@@ -1,0 +1,11 @@
+{
+    "STATIC_IP": "192.168.1.23",
+    "SUBNET" : "192.168.1.0",
+    "GATEWAY_IP": "192.168.1.1",
+    "MASKER": "255.255.255.128",
+    "SSID": "VFNL-F3F5F0-24",
+    "PASSWRD" : "8S3324C5467J6",
+    "DNS": "8.8.8.8",
+    "IDENTITY": "iot-1 LoPy4-25",
+    "MICROPYTHON": "Pycom"
+}
