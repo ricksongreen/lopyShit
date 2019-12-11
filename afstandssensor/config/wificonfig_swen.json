@@ -1,0 +1,11 @@
+{
+    "STATIC_IP": "192.168.178.180",
+    "SUBNET" : "192.168.1.0",
+    "GATEWAY_IP": "192.168.178.1",
+    "MASKER": "255.255.255.128",
+    "SSID": "hotelSJ",
+    "PASSWRD" : "SJ0924201335vm",
+    "DNS": "8.8.8.8",
+    "IDENTITY": "iot-1 LoPy4-25",
+    "MICROPYTHON": "Pycom"
+}
