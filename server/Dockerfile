@@ -6,10 +6,6 @@ FROM python:3.6
 # to the terminal with out buffering it first
 ENV PYTHONUNBUFFERED 1
 
-# Install gdal-bin for GeoJson support
-RUN apt-get update &&\
-    apt-get install -y gdal-bin
-
 # create root directory for our project in the container
 RUN mkdir /code
 
