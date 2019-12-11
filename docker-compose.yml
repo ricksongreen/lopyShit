@@ -15,14 +15,19 @@ services:
     volumes:
       - ./server:/code
     environment:
-      - VIRTUAL_HOST=smart-city.localhost.com #local
-      # - VIRTUAL_HOST=school-smart-city.karanjaddoe.nl #production
+      #- VIRTUAL_HOST=smart-city.localhost.com #local
+      - VIRTUAL_HOST=school-smart-city.karanjaddoe.nl #production
+      - LETSENCRYPT_HOST=school-smart-city.karanjaddoe.nl
+      - LETSENCRYPT_EMAIL=school-smart-city@karanjaddoe.nl
     networks:
       - default
-      - develop
+      - production
 networks:
   default:
     driver: bridge
   develop:
     external:
       name: develop
+  production:
+    external:
+      name: production
