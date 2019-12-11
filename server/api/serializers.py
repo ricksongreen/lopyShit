@@ -44,11 +44,9 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RefillerSerializer(serializers.ModelSerializer):
-    tagUid = serializers.CharField(source="tag.uid", read_only="True")
-
     class Meta:
         model = Refiller
-        fields = ["id", "name", "tag", "tagUid"]
+        fields = ["id", "name", "tag"]
 
 
 class RefillSerializer(serializers.ModelSerializer):
