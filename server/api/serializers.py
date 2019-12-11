@@ -2,61 +2,69 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from api.models import Toilet, Usage, Tag, Refiller, Refill
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ["url", "username", "email", "groups"]
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['url', 'name']
+        fields = ["url", "name"]
 
-class ToiletSerializer(serializers.HyperlinkedModelSerializer):
+
+class ToiletSerializer(serializers.ModelSerializer):
     class Meta:
         model = Toilet
-        fields = ['id', 'place', 'toiletPaper', 'maxAmountOfToiletRolls', 'toiletRollSize', 'extraDistance']
+        fields = [
+            "id",
+            "place",
+            "toiletPaper",
+            "maxAmountOfToiletRolls",
+            "toiletRollSize",
+            "extraDistance",
+        ]
 
-class UsageSerializer(serializers.HyperlinkedModelSerializer):
-    toiletPlace = serializers.CharField(
-        source="toilet.place", read_only="True"
-    )
-    toiletPaper = serializers.CharField(
-        source="toilet.toiletPaper", read_only="True"
-    )
+
+class UsageSerializer(serializers.ModelSerializer):
+    toiletPlace = serializers.CharField(source="toilet.place", read_only="True")
+    toiletPaper = serializers.CharField(source="toilet.toiletPaper", read_only="True")
 
     class Meta:
         model = Usage
-        fields = ['id', 'usageDateTime', 'toilet', 'toiletPlace', 'toiletPaper']
+        fields = ["id", "usageDateTime", "toilet", "toiletPlace", "toiletPaper"]
 
 
-class TagSerializer(serializers.HyperlinkedModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['uid']
+        fields = ["uid"]
 
-class RefillerSerializer(serializers.HyperlinkedModelSerializer):
-    tagUid = serializers.CharField( 
-        source="tag.uid", read_only="True"
-    )
+
+class RefillerSerializer(serializers.ModelSerializer):
+    tagUid = serializers.CharField(source="tag.uid", read_only="True")
 
     class Meta:
         model = Refiller
-        fields = ['id', 'name', 'tag', 'tagUid']
+        fields = ["id", "name", "tag", "tagUid"]
 
-class RefillSerializer(serializers.HyperlinkedModelSerializer):
-    toiletPlace = serializers.CharField(
-        source="toilet.place", read_only="True"
-    )
-    toiletPaper = serializers.CharField(
-        source="toilet.toiletPaper", read_only="True"
-    )
 
-    refillerName = serializers.CharField(
-        source="refiller.name", read_only="True"
-    )
-    
+class RefillSerializer(serializers.ModelSerializer):
+    toiletPlace = serializers.CharField(source="toilet.place", read_only="True")
+    toiletPaper = serializers.CharField(source="toilet.toiletPaper", read_only="True")
+
+    refillerName = serializers.CharField(source="refiller.name", read_only="True")
+
     class Meta:
         model = Refill
-        fields = ['id','refillDateTime', 'refiller', 'refillerName', 'toilet', 'toiletPlace', 'toiletPaper']
+        fields = [
+            "id",
+            "refillDateTime",
+            "refiller",
+            "refillerName",
+            "toilet",
+            "toiletPlace",
+            "toiletPaper",
+        ]
