@@ -89,6 +89,7 @@ class Scanner:
                 )
             )
             if (self.check_uid(list(uid), uid_len)) > 0:
+                pycom.rgbled(RGB_GREEN)
                 self.print_debug("Card is listed, turn LED green and send data to API")
                 if self.check_network_connection():
                     global BASE_URL
@@ -96,29 +97,39 @@ class Scanner:
                         "Content-Type": "application/json",
                     }
                     data = {
-                        "refiller": 1,
+                        "refiller": self.get_refiller(
+                            binascii.hexlify(uid[:uid_len], " ").upper()
+                        ),
                         "toilet": 1,
                     }
                     response = urequests.post(
                         BASE_URL + "/refill/", headers=headers, json=data
                     )  # response object
                     self.print_debug("HTTP status code:{}".format(response.status_code))
-                    pycom.rgbled(RGB_GREEN)
                     time.sleep(0.5)
             else:
                 self.print_debug("Card is not listed, turn LED red")
                 pycom.rgbled(RGB_RED)
 
-    @staticmethod
-    def check_network_connection():
-        print("checking network connection...")
+    def check_network_connection(self):
+        self.print_debug("checking network connection...")
         station = network.WLAN(mode=network.WLAN.STA)
         while not station.isconnected():
-            print("waiting for connection...")
+            self.print_debug("waiting for connection...")
             time.sleep(1)
         ip = station.ifconfig()[0]
-        print("Device IP address on network:", ip)
+        self.print_debug("Device IP address on network: {}".format(ip))
         return True
+
+    def get_refiller(self, tag):
+        global BASE_URL
+        user_id = None
+        if self.check_network_connection():
+            response = urequests.get(BASE_URL + "/refiller/").json()["results"]
+            for refiller in response:
+                if refiller["tag"] == str("{:s}").format(tag):
+                    user_id = refiller["id"]
+        return user_id
 
     def get_valid_cards(self):
         global BASE_URL
