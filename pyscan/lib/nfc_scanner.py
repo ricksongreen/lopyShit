@@ -23,7 +23,8 @@ RGB_RED = RGB_BRIGHTNESS << 16
 RGB_GREEN = RGB_BRIGHTNESS << 8
 RGB_BLUE = RGB_BRIGHTNESS
 
-BASE_URL = "http://mambo150.pythonanywhere.com"
+#  BASE_URL = "http://mambo150.pythonanywhere.com"
+BASE_URL = "http://school-smart-city.karanjaddoe.nl"
 
 
 class Scanner:
@@ -95,17 +96,15 @@ class Scanner:
                         "Content-Type": "application/json",
                     }
                     data = {
-                        "refiller": BASE_URL + "/refiller/1/",
-                        "toilet": BASE_URL + "/toilet/1/",
+                        "refiller": 1,
+                        "toilet": 1,
                     }
-                    print(data)
                     response = urequests.post(
-                        BASE_URL + "/refill/", headers=headers, data=str(data)
+                        BASE_URL + "/refill/", headers=headers, json=data
                     )  # response object
-                    print("HTTP status code:{}".format(response.status_code))
-                    res = response.json()
-                    print(res)
-                pycom.rgbled(RGB_GREEN)
+                    self.print_debug("HTTP status code:{}".format(response.status_code))
+                    pycom.rgbled(RGB_GREEN)
+                    time.sleep(0.5)
             else:
                 self.print_debug("Card is not listed, turn LED red")
                 pycom.rgbled(RGB_RED)
@@ -122,10 +121,10 @@ class Scanner:
         return True
 
     def get_valid_cards(self):
+        global BASE_URL
         cards = []
         if self.check_network_connection():
-            url = "http://mambo150.pythonanywhere.com/tag/"
-            response = urequests.get(url).json()["results"]
+            response = urequests.get(BASE_URL + "/tag/").json()["results"]
             for card in response:
                 hex_card = [int(x, 16) for x in card["uid"].split()]
                 cards.append(hex_card)
