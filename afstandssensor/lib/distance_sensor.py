@@ -6,14 +6,14 @@ import urequests
 import utime
 from machine import Pin
 
-
 class DistanceSensor:
     # declaration of the pins
     def __init__(self):
         self.echo = Pin("P21", mode=Pin.IN)
         self.trigger = Pin("P20", mode=Pin.OUT)
-
-        self.url = "http://mambo150.pythonanywhere.com/toilet/1/"
+        
+        self.url = "http://school-smart-city.karanjaddoe.nl/toilet/1/"
+        # self.url = "http://mambo150.pythonanywhere.com/toilet/1/"
 
         while True:
             distance = self.measurement()
@@ -27,13 +27,13 @@ class DistanceSensor:
             )
             print("Toilet rolls: ", amountOfToiletRolls)
             self.toilet_put(amountOfToiletRolls)
-            time.sleep(60)
+            time.sleep(6)
 
     def measurement(self):
         self.trigger(0)
         utime.sleep_us(2)
         self.trigger(1)
-        utime.sleep_us(10)
+        utime.sleep_us(5)
         self.trigger(0)
 
         # we have to wait until the echo gets something back
@@ -43,8 +43,13 @@ class DistanceSensor:
         while self.echo() == 1:
             pass
         end = utime.ticks_us()
-        # to transform the time it took to recieve the echo to the distance, we have to multiply it by .017
-        self.distance = utime.ticks_diff(start, end) * 0.017
+        # Given: ticks in microseconds. Needed: centimeters.
+        # Calc: ticks / 1*10^6 = seconds. Seconds x speed of sound (343 m/s).
+        # This then has to be divided by 2, since the sounds goes towards the object and back.
+        # And multiply with 100 to change the meters given to centimeters
+        difference = utime.ticks_diff(start, end) / 1000000
+        meters = (difference * 343) / 2
+        self.distance = meters * 100
         print("Distance: ", self.distance)
 
         # minimal time in between, to not lagg the entire lopy
@@ -61,7 +66,6 @@ class DistanceSensor:
             print("waiting for connection...")
             time.sleep(1)
         ip = station.ifconfig()[0]
-        print("Device IP address on network:", ip)
         return True
 
     def get_toilet(self):

@@ -11,8 +11,8 @@ class ToiletOccupation:
         self.pin_out = Pin("P12", mode=Pin.OUT)
         self.toggle = False
 
-        self.url = "http://mambo150.pythonanywhere.com/usage/"
-        self.json = { "toilet" : 1 }
+        self.url = "http://school-smart-city.karanjaddoe.nl/usage/"
+        self.json = { "toilet" : "http://school-smart-city.karanjaddoe.nl/toilet/1/" }
 
         while True:
             if self.pin_in() == 1:
