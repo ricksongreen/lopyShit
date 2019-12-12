@@ -1,5 +1,5 @@
-Django==2.1.4
-djangorestframework==3.9.0
+Django
+djangorestframework
 django-cors-headers
 django-filter
 psycopg2
