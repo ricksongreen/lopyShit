@@ -30,11 +30,10 @@ class ToiletSerializer(serializers.ModelSerializer):
 
 class UsageSerializer(serializers.ModelSerializer):
     toiletPlace = serializers.CharField(source="toilet.place", read_only="True")
-    toiletPaper = serializers.CharField(source="toilet.toiletPaper", read_only="True")
 
     class Meta:
         model = Usage
-        fields = ["id", "usageDateTime", "toilet", "toiletPlace", "toiletPaper"]
+        fields = ["id", "usageDateTime", "toilet", "toiletPlace"]
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -51,7 +50,6 @@ class RefillerSerializer(serializers.ModelSerializer):
 
 class RefillSerializer(serializers.ModelSerializer):
     toiletPlace = serializers.CharField(source="toilet.place", read_only="True")
-    toiletPaper = serializers.CharField(source="toilet.toiletPaper", read_only="True")
 
     refillerName = serializers.CharField(source="refiller.name", read_only="True")
 
@@ -64,5 +62,4 @@ class RefillSerializer(serializers.ModelSerializer):
             "refillerName",
             "toilet",
             "toiletPlace",
-            "toiletPaper",
         ]
