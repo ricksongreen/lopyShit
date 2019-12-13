@@ -1,4 +1,7 @@
-from distance_sensor import DistanceSensor
+import _thread
 
-if __name__ == "__main__":
-    DistanceSensor()
+from distance_sensor import DistanceSensor
+from toilet_occupation import ToiletOccupation
+
+_thread.start_new_thread(DistanceSensor, ())
+_thread.start_new_thread(ToiletOccupation, ())

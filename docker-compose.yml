@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  db:
+    container_name: school_smart-city_db
+    image: postgres:alpine
+    env_file:
+      - environment.env
+  back:
+    build: ./server
+    container_name: school_smart-city_back
+    command: python manage.py runserver 0.0.0.0:8080
+    env_file:
+      - environment.env
+    volumes:
+      - ./server:/code
+    environment:
+      #- VIRTUAL_HOST=smart-city.localhost.com #local
+      - VIRTUAL_HOST=school-smart-city.karanjaddoe.nl #production
+      - LETSENCRYPT_HOST=school-smart-city.karanjaddoe.nl
+      - LETSENCRYPT_EMAIL=school-smart-city@karanjaddoe.nl
+    networks:
+      - default
+      - production
+networks:
+  default:
+    driver: bridge
+  develop:
+    external:
+      name: develop
+  production:
+    external:
+      name: production
