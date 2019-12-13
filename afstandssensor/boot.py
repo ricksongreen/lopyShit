@@ -19,7 +19,7 @@ if USE_WIFI:
 
     try:
         pycom.heartbeat(False)
-        wificonfig_file = "config/wificonfig_swen.json"
+        wificonfig_file = "config/wificonfig.json"
         print("Start to connect to Wifi...({})".format(wificonfig_file))
         wifi = WifiManager(wificonfig_file)
         print("Device MAC-adres: {}".format(wifi.mac))
@@ -42,5 +42,4 @@ if USE_WIFI:
         print(ex)
 
     finally:
-        print("Device is connected to Wifi: {}".format(wifi.isconnected))
         pycom.heartbeat(True)

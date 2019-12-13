@@ -23,7 +23,8 @@ RGB_RED = RGB_BRIGHTNESS << 16
 RGB_GREEN = RGB_BRIGHTNESS << 8
 RGB_BLUE = RGB_BRIGHTNESS
 
-BASE_URL = "http://mambo150.pythonanywhere.com"
+#  BASE_URL = "http://mambo150.pythonanywhere.com"
+BASE_URL = "http://school-smart-city.karanjaddoe.nl"
 
 
 class Scanner:
@@ -88,6 +89,7 @@ class Scanner:
                 )
             )
             if (self.check_uid(list(uid), uid_len)) > 0:
+                pycom.rgbled(RGB_GREEN)
                 self.print_debug("Card is listed, turn LED green and send data to API")
                 if self.check_network_connection():
                     global BASE_URL
@@ -95,37 +97,45 @@ class Scanner:
                         "Content-Type": "application/json",
                     }
                     data = {
-                        "refiller": BASE_URL + "/refiller/1/",
-                        "toilet": BASE_URL + "/toilet/1/",
+                        "refiller": self.get_refiller(
+                            binascii.hexlify(uid[:uid_len], " ").upper()
+                        ),
+                        "toilet": 1,
                     }
-                    print(data)
                     response = urequests.post(
-                        BASE_URL + "/refill/", headers=headers, data=str(data)
+                        BASE_URL + "/refill/", headers=headers, json=data
                     )  # response object
-                    print("HTTP status code:{}".format(response.status_code))
-                    res = response.json()
-                    print(res)
-                pycom.rgbled(RGB_GREEN)
+                    self.print_debug("HTTP status code:{}".format(response.status_code))
+                    time.sleep(0.5)
             else:
                 self.print_debug("Card is not listed, turn LED red")
                 pycom.rgbled(RGB_RED)
 
-    @staticmethod
-    def check_network_connection():
-        print("checking network connection...")
+    def check_network_connection(self):
+        self.print_debug("checking network connection...")
         station = network.WLAN(mode=network.WLAN.STA)
         while not station.isconnected():
-            print("waiting for connection...")
+            self.print_debug("waiting for connection...")
             time.sleep(1)
         ip = station.ifconfig()[0]
-        print("Device IP address on network:", ip)
+        self.print_debug("Device IP address on network: {}".format(ip))
         return True
 
+    def get_refiller(self, tag):
+        global BASE_URL
+        user_id = None
+        if self.check_network_connection():
+            response = urequests.get(BASE_URL + "/refiller/").json()["results"]
+            for refiller in response:
+                if refiller["tag"] == str("{:s}").format(tag):
+                    user_id = refiller["id"]
+        return user_id
+
     def get_valid_cards(self):
+        global BASE_URL
         cards = []
         if self.check_network_connection():
-            url = "http://mambo150.pythonanywhere.com/tag/"
-            response = urequests.get(url).json()["results"]
+            response = urequests.get(BASE_URL + "/tag/").json()["results"]
             for card in response:
                 hex_card = [int(x, 16) for x in card["uid"].split()]
                 cards.append(hex_card)
