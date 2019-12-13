@@ -24,7 +24,7 @@ class ToiletOccupation:
         while True:
             if self.pin_in() == 1:
                 if self.toggle == False:
-                    self.pin_out.toggle()
+                    self.pin_out.value(1)
                     self.on_button_press()
                     print("This button is pressed")
                     self.toggle = True
